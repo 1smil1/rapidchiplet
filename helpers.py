@@ -2,10 +2,50 @@
 import json
 import copy
 import math
+import os
+from pathlib import Path
 
 # RapidChiplet libraries
 import rapidchiplet as rc
 import validation as val
+
+# =============================================================================
+# Path utilities for running from any directory
+# =============================================================================
+
+# Get the absolute path of rapidchiplet directory
+RAPIDCHIPLET_DIR = Path(__file__).parent.absolute()
+
+
+def resolve_path(path: str) -> str:
+    """
+    Resolve a path relative to the rapidchiplet directory.
+
+    This allows running rapidchiplet.py from any directory while still
+    correctly finding input/output files.
+
+    Priority:
+    1. If path is absolute, use as-is
+    2. If path exists relative to current working directory, use that
+    3. Otherwise, resolve relative to rapidchiplet directory
+
+    Args:
+        path: A file path (relative or absolute)
+
+    Returns:
+        Absolute path resolved appropriately
+    """
+    p = Path(path)
+    if p.is_absolute():
+        return str(p)
+
+    # Check if exists from current working directory
+    if p.exists():
+        return str(p.absolute())
+
+    # Resolve from rapidchiplet directory
+    resolved = RAPIDCHIPLET_DIR / p
+    return str(resolved)
 
 # Check if a string can be converted to an float
 def is_float(value):
@@ -52,13 +92,17 @@ def decode_data(data):
 
 # Write a JSON file
 def write_json(filename, content):
-    file = open(filename, "w")
+    filepath = resolve_path(filename)
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    file = open(filepath, "w")
     file.write(json.dumps(encode_data(content), indent=4))
     file.close()
 
 # Read a JSON file
 def read_json(filename):
-    file = open(filename, "r")
+    filepath = resolve_path(filename)
+    file = open(filepath, "r")
     file_content = decode_data(json.loads(file.read()))
     file.close()
     return file_content

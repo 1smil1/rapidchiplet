@@ -64,10 +64,10 @@ $(YACC_SRCS) $(YACC_HDRS): config.y
 	$(YACC) -d $<
 
 $(LEX_OBJS): $(LEX_SRCS) $(YACC_HDRS)
-	$(CC) $(CPPFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) -x c++ -c $< -o $@
 
 $(YACC_OBJS): $(YACC_SRCS)
-	$(CC) $(CPPFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) -x c++ -c $< -o $@
 
 %.o: %.cpp
 	$(CXX) $(CPPFLAGS) -MMD -c $< -o $@

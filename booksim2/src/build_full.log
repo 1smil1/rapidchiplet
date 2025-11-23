@@ -1,0 +1,122 @@
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c batchtrafficmanager.cpp -o batchtrafficmanager.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c booksim_config.cpp -o booksim_config.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c buffer.cpp -o buffer.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c buffer_state.cpp -o buffer_state.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c config_utils.cpp -o config_utils.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c credit.cpp -o credit.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c flit.cpp -o flit.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c flitchannel.cpp -o flitchannel.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c injection.cpp -o injection.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c main.cpp -o main.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c misc_utils.cpp -o misc_utils.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c module.cpp -o module.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c outputset.cpp -o outputset.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c packet_reply_info.cpp -o packet_reply_info.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c random_utils.cpp -o random_utils.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c rng_double_wrapper.cpp -o rng_double_wrapper.o
+In file included from rng_double_wrapper.cpp:29:
+rng-double.c: In function 'void ranf_array(double*, int)':
+rng-double.c:34:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   34 |   register int i,j;
+      |                ^
+rng-double.c:34:18: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   34 |   register int i,j;
+      |                  ^
+rng-double.c: In function 'void ranf_start(long int)':
+rng-double.c:59:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   59 |   register int t,s,j;
+      |                ^
+rng-double.c:59:18: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   59 |   register int t,s,j;
+      |                  ^
+rng-double.c:59:20: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   59 |   register int t,s,j;
+      |                    ^
+rng-double.c: In function 'int rng_double_main()':
+rng-double.c:103:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+  103 |   register int m; double a[2009]; /* a rudimentary test */
+      |                ^
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c rng_wrapper.cpp -o rng_wrapper.o
+In file included from rng_wrapper.cpp:29:
+rng.c: In function 'void ran_array(long int*, int)':
+rng.c:35:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   35 |   register int i,j;
+      |                ^
+rng.c:35:18: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   35 |   register int i,j;
+      |                  ^
+rng.c: In function 'void ran_start(long int)':
+rng.c:60:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   60 |   register int t,j;
+      |                ^
+rng.c:60:18: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   60 |   register int t,j;
+      |                  ^
+rng.c:62:17: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+   62 |   register long ss=(seed+2)&(MM-2);
+      |                 ^~
+rng.c: In function 'int rng_main()':
+rng.c:100:16: warning: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+  100 |   register int m; long a[2009];
+      |                ^
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c routefunc.cpp -o routefunc.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c stats.cpp -o stats.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c traffic.cpp -o traffic.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c trafficmanager.cpp -o trafficmanager.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c vc.cpp -o vc.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/allocator.cpp -o allocators/allocator.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/islip.cpp -o allocators/islip.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/loa.cpp -o allocators/loa.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/maxsize.cpp -o allocators/maxsize.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/pim.cpp -o allocators/pim.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/selalloc.cpp -o allocators/selalloc.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/separable.cpp -o allocators/separable.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/separable_input_first.cpp -o allocators/separable_input_first.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/separable_output_first.cpp -o allocators/separable_output_first.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c allocators/wavefront.cpp -o allocators/wavefront.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c arbiters/arbiter.cpp -o arbiters/arbiter.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c arbiters/matrix_arb.cpp -o arbiters/matrix_arb.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c arbiters/prio_arb.cpp -o arbiters/prio_arb.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c arbiters/roundrobin_arb.cpp -o arbiters/roundrobin_arb.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c arbiters/tree_arb.cpp -o arbiters/tree_arb.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/anynet.cpp -o networks/anynet.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/cmesh.cpp -o networks/cmesh.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/dragonfly.cpp -o networks/dragonfly.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/fattree.cpp -o networks/fattree.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/flatfly_onchip.cpp -o networks/flatfly_onchip.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/fly.cpp -o networks/fly.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/kncube.cpp -o networks/kncube.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/network.cpp -o networks/network.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/qtree.cpp -o networks/qtree.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c networks/tree4.cpp -o networks/tree4.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c power/buffer_monitor.cpp -o power/buffer_monitor.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c power/power_module.cpp -o power/power_module.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c power/switch_monitor.cpp -o power/switch_monitor.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c routers/chaos_router.cpp -o routers/chaos_router.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c routers/event_router.cpp -o routers/event_router.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c routers/iq_router.cpp -o routers/iq_router.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -MMD -c routers/router.cpp -o routers/router.o
+flex config.l
+bison -y -d config.y
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -x c++ -c lex.yy.c -o lex.yy.o
+/ucrt64/bin/g++ -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower  -O3 -g -x c++ -c y.tab.c -o y.tab.o
+y.tab.c: In function 'int yyparse()':
+y.tab.c:1193:20: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+ 1193 |       yyerror (YY_("syntax error"));
+      |                    ^~~~~~~~~~~~~~
+y.tab.c:314:22: note: in definition of macro 'YY_'
+  314 | #  define YY_(Msgid) Msgid
+      |                      ^~~~~
+y.tab.c:1304:16: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+ 1304 |   yyerror (YY_("memory exhausted"));
+      |                ^~~~~~~~~~~~~~~~~~
+y.tab.c:314:22: note: in definition of macro 'YY_'
+  314 | #  define YY_(Msgid) Msgid
+      |                      ^~~~~
+/ucrt64/bin/g++  batchtrafficmanager.o booksim_config.o buffer.o buffer_state.o config_utils.o credit.o flit.o flitchannel.o injection.o main.o misc_utils.o module.o outputset.o packet_reply_info.o random_utils.o rng_double_wrapper.o rng_wrapper.o routefunc.o stats.o traffic.o trafficmanager.o vc.o allocators/allocator.o allocators/islip.o allocators/loa.o allocators/maxsize.o allocators/pim.o allocators/selalloc.o allocators/separable.o allocators/separable_input_first.o allocators/separable_output_first.o allocators/wavefront.o arbiters/arbiter.o arbiters/matrix_arb.o arbiters/prio_arb.o arbiters/roundrobin_arb.o arbiters/tree_arb.o networks/anynet.o networks/cmesh.o networks/dragonfly.o networks/fattree.o networks/flatfly_onchip.o networks/fly.o networks/kncube.o networks/network.o networks/qtree.o networks/tree4.o power/buffer_monitor.o power/power_module.o power/switch_monitor.o routers/chaos_router.o routers/event_router.o routers/iq_router.o routers/router.o lex.yy.o y.tab.o -o booksim
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: lex.yy.o: in function `yy_get_next_buffer':
+D:/python_prj/rapidchiplet/rapidchiplet/booksim2/src/lex.yy.c:1046:(.text+0xd54): undefined reference to `config_input(char*, int)'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: lex.yy.o: in function `yyerror(char*)':
+D:/python_prj/rapidchiplet/rapidchiplet/booksim2/src/config.l:54:(.text+0x1697): undefined reference to `config_error(char*, int)'
+collect2.exe: error: ld returned 1 exit status
+make: *** [Makefile:58：booksim] 错误 1

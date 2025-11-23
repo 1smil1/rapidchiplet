@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(make:*)",
+      "Bash(gcc:*)",
+      "Bash(python:*)",
+      "Read(//c/Program Files/**)",
+      "Bash(.bootstrap-vcpkg.bat)",
+      "Bash(cmd:*)",
+      "Bash(./vcpkg.exe:*)",
+      "Bash(where:*)",
+      "Bash(dir \"C:\\Program Files\\vcpkg\\installed\\x64-windows\\tools\\lemon\")",
+      "Bash(dir:*)",
+      "WebSearch",
+      "Bash(winget:*)",
+      "Bash(flex:*)",
+      "Bash(bison:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

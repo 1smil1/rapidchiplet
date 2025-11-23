@@ -1,37 +1,43 @@
 %{
+#include <cstdlib>
+#include <string>
+using namespace std;
 
-int  yylex(void);
-void yyerror(char * msg);
-void config_assign_string( char const * field, char const * value );
-void config_assign_int( char const * field, int value );
-void config_assign_float( char const * field, double value );
-
-#ifdef _WIN32
-#pragma warning ( disable : 4102 )
-#pragma warning ( disable : 4244 )
+#ifdef __cplusplus
+extern "C" {
+#endif
+void yyerror(char *msg);
+int yyparse(void);
+#ifdef __cplusplus
+}
 #endif
 
+extern int yylex(void);
 %}
 
 %union {
-  char   *name;
-  int    num;
+  int num;
   double fnum;
+  char *name;
 }
 
-%token <name> STR
-%token <num>  NUM
+%token <num> NUM
 %token <fnum> FNUM
+%token <name> STR
 
 %%
 
-commands : commands command
-         | command
-;
+input:
+    /* empty */
+  | input line
+  ;
 
-command : STR '=' STR ';'   { config_assign_string( $1, $3 ); free( $1 ); free( $3 ); }
-        | STR '=' NUM ';'   { config_assign_int( $1, $3 ); free( $1 ); }
-        | STR '=' FNUM ';'  { config_assign_float( $1, $3 ); free( $1 ); }
-;
+line:
+    STR { }
+  | NUM { }
+  | FNUM { }
+  ;
 
 %%
+
+// yyerror is defined in config_utils.cpp

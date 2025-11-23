@@ -1,0 +1,102 @@
+# BookSim Windows Makefile for vcpkg
+CC = g++
+CXX = g++
+
+# 添加vcpkg的include路径
+VCPKG_INCLUDE = -I"C:/Program Files/vcpkg/installed/x64-windows/include"
+
+# 基本编译选项
+CPPFLAGS = -Wall -I. -Iarbiters -Iallocators -Irouters -Inetworks -Ipower $(VCPKG_INCLUDE)
+CPPFLAGS += -O3 -g -std=c++11
+LFLAGS =
+
+# 手动列出所有源文件（避免通配符问题）
+CPP_SRCS = \
+    batchtrafficmanager.cpp \
+    booksim_config.cpp \
+    buffer.cpp \
+    buffer_state.cpp \
+    config_utils.cpp \
+    credit.cpp \
+    flit.cpp \
+    flitchannel.cpp \
+    injection.cpp \
+    main.cpp \
+    misc_utils.cpp \
+    module.cpp \
+    outputset.cpp \
+    packet_reply_info.cpp \
+    random_utils.cpp \
+    rng_double_wrapper.cpp \
+    rng_wrapper.cpp \
+    routefunc.cpp \
+    stats.cpp \
+    traffic.cpp \
+    trafficmanager.cpp \
+    vc.cpp
+
+# 子目录下的源文件
+SUBDIR_CPP_SRCS = \
+    arbiters/*.cpp \
+    allocators/*.cpp \
+    routers/*.cpp \
+    networks/*.cpp \
+    power/*.cpp
+
+# 所有源文件
+ALL_CPP_SRCS = $(CPP_SRCS) $(wildcard arbiters/*.cpp) $(wildcard allocators/*.cpp) $(wildcard routers/*.cpp) $(wildcard networks/*.cpp) $(wildcard power/*.cpp)
+
+# 目标文件
+CPP_OBJS = $(ALL_CPP_SRCS:.cpp=.o)
+
+# 依赖文件
+LEX_SRCS = lex.yy.c
+YACC_SRCS = y.tab.c
+YACC_HDRS = y.tab.h
+LEX_OBJS = lex.yy.o
+YACC_OBJS = y.tab.o
+
+# 目标程序
+PROG = booksim.exe
+
+# 所有目标文件
+OBJS = $(CPP_OBJS) $(LEX_OBJS) $(YACC_OBJS)
+
+# 默认目标
+all: $(LEX_SRCS) $(YACC_SRCS) $(PROG)
+
+# 生成lexer文件
+$(LEX_SRCS): config.l
+	flex $(LEX_SRCS)
+
+# 生成parser文件
+$(YACC_SRCS) $(YACC_HDRS): config.y
+	bison -d -o $(YACC_SRCS) config.y
+
+# 编译规则
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) -c $< -o $@
+
+$(LEX_OBJS): $(LEX_SRCS) $(YACC_HDRS)
+	$(CXX) $(CPPFLAGS) -c $(LEX_SRCS) -o $(LEX_OBJS)
+
+$(YACC_OBJS): $(YACC_SRCS)
+	$(CXX) $(CPPFLAGS) -c $(YACC_SRCS) -o $(YACC_OBJS)
+
+# 链接目标
+$(PROG): $(OBJS)
+	$(CXX) $(OBJS) -o $(PROG)
+
+# 清理
+clean:
+	rm -f $(YACC_SRCS) $(YACC_HDRS)
+	rm -f $(CPP_DEPS)
+	rm -f $(OBJS)
+	rm -f $(PROG)
+
+distclean: clean
+	rm -f *~ */*~
+	rm -f *.o */*.o
+	rm -f *.d */*.d
+
+.PHONY: all clean distclean

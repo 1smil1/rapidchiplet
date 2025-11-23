@@ -92,4 +92,16 @@ vector<string> tokenize_str(string const & data);
 vector<int> tokenize_int(string const & data);
 vector<double> tokenize_float(string const & data);
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void config_error(char const * msg, int lineno);
+int config_input(char * line, int max_size);
+void yyerror(char * msg);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

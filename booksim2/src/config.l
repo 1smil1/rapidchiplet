@@ -9,10 +9,16 @@
 
 static unsigned int lineno = 1;
 
-void config_error(char * msg, int lineno);
+#ifdef __cplusplus
+extern "C" {
+#endif
+void config_error(const char * msg, int lineno);
+int config_input(char *, int);
 void yyerror(char * msg);
+#ifdef __cplusplus
+}
+#endif
 
-extern int config_input(char *, int);
 #undef YY_INPUT
 #define YY_INPUT(b, r, ms) (r = config_input(b, ms))
 
@@ -48,7 +54,7 @@ StrConst [A-Za-z_\-/\.][A-Za-z0-9_\-/\.\+(\{\,)\}]*
 
 %%
 
-void yyerror( char * msg )
+extern "C" void yyerror( char * msg )
 {
   config_error( msg, lineno );
 }

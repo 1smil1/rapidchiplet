@@ -184,12 +184,12 @@ def compute_power_summary(inputs, intermediates):
 		total_link_power = len(link_lengths) * packaging["link_power"] / 2
 	else:
 		total_link_power = sum([eval(packaging["link_power"])(link_length) for link_length in link_lengths.values()]) / 2
-	# Compute total interposer area
-	total_power = total_chiplet_power + total_interposer_power
+	# Compute total power (link power + interposer power, excluding chiplet compute power)
+	total_power = total_link_power + total_interposer_power
 	# Aggregate the results
 	power_summary = {
 		"total_power" : total_power,
-		"total_chiplet_power" : total_chiplet_power,
+		"total_link_power" : total_link_power,
 		"total_interposer_power" : total_interposer_power
 	}
 	# Return results
