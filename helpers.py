@@ -180,3 +180,26 @@ def convert_by_unit_traffic_to_by_chiplet_traffic(traffic_by_unit):
 			traffic_by_chiplet[new_key] = 0
 		traffic_by_chiplet[new_key] += traffic_by_unit[((src_cid, src_uid),(dst_cid, dst_uid))]
 	return traffic_by_chiplet
+
+def get_traffic_info(traffic_value):
+	"""
+	Get traffic volume and count with backward compatibility.
+
+	Supports both old format (float) and new format (dict with volume and count).
+
+	Args:
+		traffic_value: Either a float (old format) or dict (new format)
+
+	Returns:
+		Tuple of (volume, count)
+
+	Examples:
+		get_traffic_info(0.2) -> (0.2, 1)
+		get_traffic_info({"volume": 0.2, "count": 1000}) -> (0.2, 1000)
+	"""
+	if isinstance(traffic_value, dict):
+		# New format: {"volume": 0.2, "count": 1000}
+		return traffic_value["volume"], traffic_value.get("count", 1)
+	else:
+		# Old format: 0.2 (default count=1)
+		return traffic_value, 1

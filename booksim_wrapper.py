@@ -260,7 +260,9 @@ def export_traffic(inputs, intermediates, run_identifier):
 	for ((scid,suid),(dcid,duid)) in traffic_by_unit.keys():
 		bs_snid = cid_and_uid_to_bsnid[(scid,suid)]
 		bs_dnid = cid_and_uid_to_bsnid[(dcid,duid)]
-		bs_traffic[bs_snid][bs_dnid] = traffic_by_unit[(scid,suid),(dcid,duid)]
+		# Get traffic volume (backward compatible with new format)
+		traffic_volume, _ = hlp.get_traffic_info(traffic_by_unit[(scid,suid),(dcid,duid)])
+		bs_traffic[bs_snid][bs_dnid] = traffic_volume
 	# Store the file
 	save_path = "booksim2/src/rc_traffics/%s.json" % run_identifier
 	hlp.write_json(save_path, bs_traffic)

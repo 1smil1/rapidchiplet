@@ -321,7 +321,7 @@ def compute_latency(inputs, intermediates):
 		node_latencies[("chiplet",cid)] = lat_int + lat_phy
 		node_relay_latencies[("chiplet",cid)] = lat_phy + lat_int + lat_phy
 	# The average latency under the specified routing and traffic
-	min_latency = float("inf")	
+	min_latency = float("inf")
 	max_latency = -float("inf")
 	sum_of_weghted_latencies = 0
 	sum_of_weights = 0
@@ -329,6 +329,8 @@ def compute_latency(inputs, intermediates):
 	for (sid, did) in traffic_by_chiplet.keys():
 		src_node = ("chiplet",sid)
 		dst_node = ("chiplet",did)
+		# Get traffic volume (backward compatible with new format)
+		traffic_weight, _ = hlp.get_traffic_info(traffic_by_chiplet[(sid, did)])
 		# Latency of sending a packet from the source node to the centra router of the source chiplet
 		lat = 1
 		# Latency of source chiplet's central router
@@ -361,8 +363,8 @@ def compute_latency(inputs, intermediates):
 		# Update the average latency
 		min_latency = min(min_latency, lat)
 		max_latency = max(max_latency, lat)
-		sum_of_weghted_latencies += lat * traffic_by_chiplet[(sid,did)]
-		sum_of_weights += traffic_by_chiplet[(sid,did)]
+		sum_of_weghted_latencies += lat * traffic_weight
+		sum_of_weights += traffic_weight
 	# Compute the average latency	
 	avg_latency = sum_of_weghted_latencies / sum_of_weights
 	# Aggregate results
@@ -373,6 +375,93 @@ def compute_latency(inputs, intermediates):
 	}
 	# Return results
 	return latency
+
+def compute_dynamic_energy(inputs, intermediates):
+	"""
+	Compute dynamic interconnect energy consumption.
+
+	Energy = Σ (path_length × traffic_volume × transfer_count × energy_per_bit)
+
+	Similar to compute_latency, but accumulates energy instead of latency.
+	Supports 2.5D and 3D energy functions (currently only 2.5D is used).
+	"""
+	# Load inputs if not already loaded
+	required_inputs = ["chiplets","packaging","placement","routing_table","traffic_by_chiplet"]
+	hlp.read_required_inputs(inputs, required_inputs)
+	packaging = inputs["packaging"]
+	placement = inputs["placement"]
+	routing_table_ = inputs["routing_table"]
+	routing_table_type = routing_table_["type"]
+	routing_table = routing_table_["table"]
+	traffic_by_chiplet = inputs["traffic_by_chiplet"]
+	# Compute intermediates if not already computed
+	required_intermediates = ["link_lengths"]
+	hlp.compute_required_intermediates(inputs, intermediates, required_intermediates)
+	link_lengths = intermediates["link_lengths"]
+	print("Computing dynamic energy...") if inputs["verbose"] else None
+
+	# Get energy functions from packaging
+	if "link_energy_2p5d" in packaging:
+		energy_func_2p5d = eval(packaging["link_energy_2p5d"])
+	else:
+		# Default if not specified
+		energy_func_2p5d = lambda x: 0.2 + 0.042 * x
+
+	# 3D energy function (reserved for future use)
+	if "link_energy_3d" in packaging:
+		energy_func_3d = eval(packaging["link_energy_3d"])
+	else:
+		energy_func_3d = lambda x: 0
+
+	# Compute total dynamic energy
+	total_dynamic_energy = 0
+	per_flow_energy = {}
+
+	# Iterate through pairs of communicating chiplets
+	for (sid, did) in traffic_by_chiplet.keys():
+		src_node = ("chiplet",sid)
+		dst_node = ("chiplet",did)
+
+		# Get traffic volume and count (backward compatible)
+		volume, count = hlp.get_traffic_info(traffic_by_chiplet[(sid, did)])
+
+		# Compute path length by traversing routing table
+		path_length = 0
+		prv_node = "-1"
+		cur_node = src_node
+
+		while cur_node != dst_node:
+			if routing_table_type == "default":
+				nxt_node = tuple(routing_table[cur_node][dst_node])
+			elif routing_table_type == "extended":
+				nxt_node = tuple(routing_table[cur_node][dst_node][prv_node])
+			else:
+				print("ERROR: Unknown routing table type %s" % routing_table_type)
+				sys.exit(1)
+
+			# Add link length to path
+			path_length += link_lengths[(cur_node, nxt_node)]
+
+			# Move to next node
+			prv_node = cur_node
+			cur_node = nxt_node
+
+		# Compute energy for this flow
+		# Currently only use 2.5D energy (all links are horizontal)
+		# Future: Add is_3d_link() check to use energy_func_3d
+		energy_per_bit = energy_func_2p5d(path_length)
+		flow_energy = path_length * volume * count * energy_per_bit
+
+		total_dynamic_energy += flow_energy
+		per_flow_energy[(sid, did)] = flow_energy
+
+	# Aggregate results
+	dynamic_energy = {
+		"total" : total_dynamic_energy,
+		"per_flow" : per_flow_energy
+	}
+	# Return results
+	return dynamic_energy
 
 def compute_throughput(inputs, intermediates):
 	# Load inputs if not already loaded
@@ -400,6 +489,8 @@ def compute_throughput(inputs, intermediates):
 	for (sid, did) in traffic_by_chiplet.keys():
 		src_node = ("chiplet",sid)
 		dst_node = ("chiplet",did)
+		# Get traffic volume (backward compatible with new format)
+		traffic_volume, _ = hlp.get_traffic_info(traffic_by_chiplet[(sid, did)])
 		prv_node = "-1"
 		cur_node = src_node
 		while cur_node != dst_node:
@@ -409,9 +500,9 @@ def compute_throughput(inputs, intermediates):
 				nxt_node = tuple(routing_table[cur_node][dst_node][prv_node])
 			else:
 				print("ERROR: Unknown routing table type %s" % routing_table_type)
-				sys.exit(1)	
+				sys.exit(1)
 			# Add the traffic load to the link
-			link_loads[(cur_node,nxt_node)] += traffic_by_chiplet[(sid,did)]
+			link_loads[(cur_node,nxt_node)] += traffic_volume
 			# Move to the next node
 			prv_node = cur_node
 			cur_node = nxt_node
@@ -446,8 +537,9 @@ def compute_throughput(inputs, intermediates):
 		min_throughput_per_traffic_unit = min(min_throughput_per_traffic_unit, flow_throughput_per_traffic_unit)
 	"""
 	# TODO: New
-	min_throughput_per_traffic_unit = min(link_throughputs.values())	
-	aggregate_load = sum(traffic_by_chiplet.values())
+	min_throughput_per_traffic_unit = min(link_throughputs.values())
+	# Calculate aggregate load (backward compatible with new traffic format)
+	aggregate_load = sum(hlp.get_traffic_info(v)[0] for v in traffic_by_chiplet.values())
 	# Compute the aggregate throughput in bits/cycle
 	aggregate_throughput = min_throughput_per_traffic_unit * aggregate_load
 	# Aggregate results
@@ -497,7 +589,7 @@ def rapidchiplet(inputs, intermediates, do_compute, results_file, verbose = Fals
 	return outputs
 
 # Define all metrics supported by RapidChiplet
-metrics = ["area_summary", "power_summary", "link_summary", "cost", "latency", "throughput", "booksim_simulation"]
+metrics = ["area_summary", "power_summary", "link_summary", "cost", "latency", "dynamic_energy", "throughput", "booksim_simulation"]
 
 # Define all functions that compute the metrics and the metrics themselves
 metric_computation_functions = {
@@ -512,6 +604,7 @@ metric_computation_functions = {
 	"link_summary" : compute_link_summary,
 	"cost" : compute_cost,
 	"latency" : compute_latency,
+	"dynamic_energy" : compute_dynamic_energy,
 	"throughput" : compute_throughput,
 	"booksim_simulation" : perform_booksim_simulation,
 }
@@ -526,6 +619,7 @@ if __name__ == "__main__":
 	parser.add_argument("-ls", "--link_summary", action="store_true", help = "Compute the link summary")
 	parser.add_argument("-c", "--cost", action="store_true", help = "Compute the manufacturing cost")
 	parser.add_argument("-l", "--latency", action="store_true", help = "Compute the ICI latency")
+	parser.add_argument("-e", "--dynamic_energy", action="store_true", help = "Compute the dynamic interconnect energy")
 	parser.add_argument("-t", "--throughput", action="store_true", help = "Compute the ICI throughput")
 	parser.add_argument("-bs", "--booksim_simulation", action="store_true", help = "Simulate the design using BookSim")
 	parser.add_argument("-nv", "--no_validation", action="store_true", help = "Skip the validation of the design")

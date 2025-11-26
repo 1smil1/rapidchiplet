@@ -473,7 +473,7 @@ def validate_traffic_by_unit(inputs):
 	for ((scid,suid),(dcid,duid)) in traffic_by_unit:
 		if scid > max_chiplet_id:
 			msg = "Invalid source chiplet id %d."
-			args = (sid, )
+			args = (scid, )
 			print_validation_error(msg, args)
 			errors += 1
 		if suid > chiplets[placement["chiplets"][scid]["name"]]["unit_count"] - 1:
@@ -483,7 +483,7 @@ def validate_traffic_by_unit(inputs):
 			errors += 1
 		if dcid > max_chiplet_id:
 			msg = "Invalid destination chiplet id %d."
-			args = (did, )
+			args = (dcid, )
 			print_validation_error(msg, args)
 			errors += 1
 		if duid > chiplets[placement["chiplets"][dcid]["name"]]["unit_count"] - 1:
@@ -512,12 +512,12 @@ def validate_traffic_by_chiplet(inputs):
 	for (scid,dcid) in traffic_by_chiplet:
 		if scid > max_chiplet_id:
 			msg = "Invalid source chiplet id %d."
-			args = (sid, )
+			args = (scid, )
 			print_validation_error(msg, args)
 			errors += 1
 		if dcid > max_chiplet_id:
 			msg = "Invalid destination chiplet id %d."
-			args = (did, )
+			args = (dcid, )
 			print_validation_error(msg, args)
 			errors += 1
 	# Print validation result
