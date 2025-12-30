@@ -321,7 +321,7 @@ def compute_latency(inputs, intermediates):
 		node_latencies[("chiplet",cid)] = lat_int + lat_phy
 		node_relay_latencies[("chiplet",cid)] = lat_phy + lat_int + lat_phy
 	# The average latency under the specified routing and traffic
-	min_latency = float("inf")
+	min_latency = float("inf")  
 	max_latency = -float("inf")
 	sum_of_weghted_latencies = 0
 	sum_of_weights = 0
