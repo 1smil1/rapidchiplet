@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-RapidChiplet is a framework for designing and evaluating chiplet-based systems with a focus on Network-on-Chip (NoC) performance analysis. It combines high-level design space exploration with cycle-accurate simulation using BookSim2 and supports real network traces via Netrace.
+RapidChiplet is a framework for designing and evaluating chiplet-based systems with a focus on NetWork-on-Chip (NoC) performance analysis. It combines high-level design space exploration with cycle-accurate simulation using BookSim2 and supports real network traces via Netrace.
 
 ## Setup and Dependencies
 
@@ -56,7 +56,7 @@ RapidChiplet uses a modular input system where designs are specified through JSO
 - **`designs/`**: Master design files that reference all other inputs
 - **`chiplets/`**: Individual chiplet specifications with dimensions, power, and PHY configurations
 - **`placements/`**: Physical placement of chiplets and interposer routers
-- **`topologies/`**: Network connectivity definitions
+- **`topologies/`**: NetWork connectivity definitions
 - **`routing_tables/`**: Pre-computed routing tables for different algorithms
 - **`technologies/`**: Process technology parameters
 - **`packagings/`**: Packaging and interposer specifications
@@ -124,7 +124,7 @@ python3 create_plots.py -rf results/<results-file> -pt latency_vs_load
 Experiments are defined in `experiments/` directory as JSON files specifying parameter ranges. The system automatically generates all combinations and runs analyses for each. Key experiment parameters include:
 
 - `grid_scale`: Chip array dimensions (e.g., "4x4", "8x8")
-- `topology`: Network topology types
+- `topology`: NetWork topology types
 - `traffic_pattern`: Synthetic traffic patterns
 - `routing_algorithm`: Routing algorithms (splif, sptmr)
 - `technology`: Process technology nodes
